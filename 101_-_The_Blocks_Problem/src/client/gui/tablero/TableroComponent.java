@@ -59,15 +59,14 @@ public class TableroComponent {
     }
     
     private void ejecutarInstruccion(){
-        if(accion1.equals("move") && accion2.equals("onto")){
+        if(accion1.equals("move") && accion2.equals("onto"))
             moveOnto();
-        }else if(accion1.equals("move") && accion2.equals("over")){
+        else if(accion1.equals("move") && accion2.equals("over"))
             moveOver();
-        }else if(accion1.equals("pile") && accion2.equals("onto")){
+        else if(accion1.equals("pile") && accion2.equals("onto"))
             pileOnto();
-        }else if(accion1.equals("pile") && accion2.equals("onto")){
-            pileOnto();
-        }
+        else if(accion1.equals("pile") && accion2.equals("over"))
+            pileOver();
     }
     
     private int getValor(int num){
@@ -78,17 +77,17 @@ public class TableroComponent {
         while(i == -1){
             if(num == 1){
                 //por la izquierda
-                if(isNumeric(temp.substring(0, 1))){
+                if(isNumeric(temp.substring(0, 1)))
                     izquierda=true;
-                }else{
+                else
                     temp=temp.substring(1);//recorta el primer caracter
-                }
+
                 //por la derecha
-                if(isNumeric(temp.substring(temp.length()-1, temp.length())) && temp.length()<3){
+                if(isNumeric(temp.substring(temp.length()-1, temp.length())) && temp.length()<3)
                     derecha=true;
-                }else{
+                else
                     temp=temp.substring(0, temp.length()-1);//recorta el ultimo caracter
-                }
+                
             }else if(num == 2){
                 //por la izquierda
                 if(isNumeric(temp.substring(0, 1)) && temp.length()<3){
@@ -139,6 +138,7 @@ public class TableroComponent {
             int[] index1 = new int[3];//i, j, valor
             int[] index2 = new int[3];
             
+            //halla posiciones
             for(int i=0; i<tablero.length; i++){
                 for(int j=0; j<tablero.length; j++){
                     if(tablero[i][j]==num1){
@@ -152,6 +152,8 @@ public class TableroComponent {
                     }
                 }
             }
+            
+            //realiza respectivo cambio si la casilla se encuentra disponible
             if(tablero[index2[0]-1][index2[1]] == -1){
                 tablero[index1[0]][index1[1]] = -1;
                 tablero[index2[0]-1][index2[1]] = index1[2];
@@ -163,68 +165,128 @@ public class TableroComponent {
         }
     }
 
+    /**
+     * coloca a en la cima de la pila que contenga a b.
+     */
     private void moveOver(){
-        /*
-    }
         if(num1 != num2){
-            int coordJLibre = c.bloque[num2].getJ(), encontrado=0;
-            for(int x=0; x<25; x++){
-                for(int i=0; i<c.numeroBloques; i++){
-                    if(c.bloque[i].getJ() == coordJLibre){
-                        coordJLibre-=1;
+            int[] index1 = new int[3];//i, j, valor
+            int[] index2 = new int[3];
+            
+            //halla posiciones
+            for(int i=0; i<tablero.length; i++){
+                for(int j=0; j<tablero.length; j++){
+                    if(tablero[i][j]==num1){
+                        index1[0] = i;
+                        index1[1] = j;
+                        index1[2] = tablero[i][j];
+                    }else if(tablero[i][j]==num2){
+                        index2[0] = i;
+                        index2[1] = j;
+                        index2[2] = tablero[i][j];
                     }
                 }
             }
-            c.bloque[num1].setI(c.bloque[num2].getI());
-            c.bloque[num1].setJ(coordJLibre);
+            //realiza respectivo cambio
+            for(int i=index2[0]; i>=0; i--){
+                if(tablero[i][index2[1]] == -1){
+                    tablero[index1[0]][index1[1]] = -1;
+                    tablero[i][index2[1]] = index1[2];
+                    break;
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Son el mismo bloque", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        */
     }
     
+    /**
+     * coloca la pila de bloques  que  están  sobre  a incluyendo a a sobre el bloque b todos los bloques arriba de
+     * b son colocados en sus posiciones iniciales antes de  que la pila se transporte.
+     */
     private void pileOnto(){
-        /*
-    }
         if(num1 != num2){
-            for(int i=0; i<c.bloque.length; i++){
-                if(i!=num2 && c.bloque[i].getI() == c.bloque[b].getI() && c.bloque[i].getJ() < c.bloque[num2].getJ()){
-                    c.bloque[i].setI(i);
-                    c.bloque[i].setJ(c.numeroBloques);
+            int[] index1 = new int[3];//i, j, valor
+            int[] index2 = new int[3];
+            
+            //halla posiciones
+            for(int i=0; i<tablero.length; i++){
+                for(int j=0; j<tablero.length; j++){
+                    if(tablero[i][j]==num1){
+                        index1[0] = i;
+                        index1[1] = j;
+                        index1[2] = tablero[i][j];
+                    }else if(tablero[i][j]==num2){
+                        index2[0] = i;
+                        index2[1] = j;
+                        index2[2] = tablero[i][j];
+                    }
                 }
             }
-            /*
-            for(int i=0; i<bloques.length; i++){
-                if(i!=b && bloques[i].i==bloques[a].i && bloques[i].j<bloques[a].j){
-                    bloques[i].i=bloques[b].i;
-                    bloques[i].j=bloques[a].j-bloques[i].j;
-                    bloques[i].j=bloques[b].j-bloques[i].j;
-                }
-            }*//*
-            pileOver();
-        }*/
+            
+            //elimina las superiores a b
+            for(int i=index2[0]-1; i>=0; i--){
+                if(tablero[i][index2[1]] != -1) {
+                    tablero[tablero.length-1][tablero[i][index2[1]]-1] = tablero[i][index2[1]];
+                    tablero[i][index2[1]] = -1;
+                } else break;
+            }
+            
+            //traslada a a y sus superiores
+            int fila=index2[0]-1;
+            for(int i=index1[0]; i>=0; i--){
+                if(tablero[i][index1[1]] != -1) {
+                    tablero[fila][index2[1]] = tablero[i][index1[1]];
+                    tablero[i][index1[1]] = -1;
+                    fila--;
+                } else break;
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Son el mismo bloque", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
-    private void pileOver(){/*
-        for(int j=c.bloque[num1].getJ(); j>-1; j--){
-            for(int i=c.numeroBloques; i<c.bloque.length; i++){
-                if(c.bloque[i].getI() == c.bloque[num1].getI() && c.bloque[i].getJ() == j){
-                    moveOver();
+    /**
+     * coloca la pila de bloques que están sobre a, incluyendo a a en la cima de la pila que  contiene a b sin  modificar el orden.
+     */
+    private void pileOver(){
+        if(num1 != num2){
+            int[] index1 = new int[3];//i, j, valor
+            int[] index2 = new int[3];
+            
+            //halla posiciones
+            for(int i=0; i<tablero.length; i++){
+                for(int j=0; j<tablero.length; j++){
+                    if(tablero[i][j]==num1){
+                        index1[0] = i;
+                        index1[1] = j;
+                        index1[2] = tablero[i][j];
+                    }else if(tablero[i][j]==num2){
+                        index2[0] = i;
+                        index2[1] = j;
+                        index2[2] = tablero[i][j];
+                    }
                 }
             }
-        }
-        /*int max = numeroBloques;
-        for(int i =0; i<bloques.length; i++){
-            if(bloques[i].i==num2 && bloques[i].j<=max){
-                max=bloques[i].j-1;
-            }
-        }
-        if(num1!=num2){
-            for(int i=0; i<bloques.length; i++){
-                if(i!=b  && bloques[i].i==bloques[num1].i && bloques[i].j<=bloques[num1].j){
-                    bloques[i].i= i;
-                    bloques[i].j+= max -(bloques[num1].j + 1);
+            
+            //traslada a a y sus superiores
+            int fila=-5;
+            for(int i=index2[0]-1; i>=0; i--){
+                if(tablero[i][index2[1]] == -1){
+                    fila = i;
+                    break;
                 }
             }
-        }*/
+            for(int i=index1[0]; i>=0; i--){
+                if(tablero[i][index1[1]] != -1) {
+                    tablero[fila][index2[1]] = tablero[i][index1[1]];
+                    tablero[i][index1[1]] = -1;
+                    fila--;
+                } else break;
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Son el mismo bloque", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private boolean isNumeric(String cadena){
