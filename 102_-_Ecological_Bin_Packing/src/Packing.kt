@@ -2,12 +2,13 @@ import java.util.Scanner
 
 fun main() {
     val frame = Window()
+}
 
-    val input = Scanner(System.`in`)
+fun calculate(num1: Int, num2: Int, num3: Int, num4: Int, num5: Int, num6: Int, num7: Int, num8: Int, num9: Int): String{
 
-    val packing1 = Packing(input)
-    val packing2 = Packing(input)
-    val packing3 = Packing(input)
+    val packing1 = Packing(num1, num2, num3)
+    val packing2 = Packing(num4, num5, num6)
+    val packing3 = Packing(num7, num8, num9)
 
     var total: Int
     var min = 0
@@ -87,7 +88,7 @@ fun main() {
         }
     }
     combinations.sort()
-    println("${combinations.get(0)} $min")
+    return "${combinations[0]} $min"
 
 }
 
@@ -97,9 +98,9 @@ class Packing {
     val greenBottles: Int
     val clearBottles: Int
 
-    constructor (input : Scanner){
-        brownBottles = input.nextInt()
-        greenBottles = input.nextInt()
-        clearBottles = input.nextInt()
+    constructor (a: Int, b: Int, c: Int){
+        brownBottles = a
+        greenBottles = b
+        clearBottles = c
     }
 }

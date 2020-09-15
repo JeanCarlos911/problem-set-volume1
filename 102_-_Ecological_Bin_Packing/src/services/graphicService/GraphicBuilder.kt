@@ -36,7 +36,7 @@ class GraphicBuilder private constructor() {
         frame.setLocationRelativeTo(null)
         frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         frame.title = title
-        frame.background = background
+        frame.contentPane.background = background
         frame.isVisible = true
     }
 
@@ -52,8 +52,8 @@ class GraphicBuilder private constructor() {
         button.isFocusable = false
         if (icon != null) {
             button.setSize(icon.iconWidth, icon.iconHeight)
-            button.icon = icon
         }
+        button.icon = icon
     }
 
     /**
@@ -77,7 +77,6 @@ class GraphicBuilder private constructor() {
         button.font = font
         button.foreground = foreground
         button.border = border
-        button.isContentAreaFilled = isSolid
         button.horizontalAlignment = when (alignment) {
             "LEFT" -> SwingConstants.LEFT
             "RIGHT" -> SwingConstants.RIGHT

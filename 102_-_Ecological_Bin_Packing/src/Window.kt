@@ -1,5 +1,7 @@
 import services.graphicService.GraphicBuilder
 import services.graphicService.GraphicResource
+import java.awt.event.ActionListener
+import java.lang.Exception
 import javax.swing.*
 
 class Window : JFrame() {
@@ -21,21 +23,30 @@ class Window : JFrame() {
     private val textField9 = JTextField()
 
     init {
+        layout = null
 
+        addBtCalculate()
         createPacking1()
         createPacking2()
         createPacking3()
-        addBtCalculate()
 
         gb?.setJFrame(this, 1280, 720, "Bin Packing Problem", gr?.BLACK)
-        layout = null
 
     }
 
     private fun addBtCalculate() {
         val btCalculate = JButton()
-        gb?.setJButton(btCalculate, "calculate", 600, 656, 80, 32, gr?.CURSOR_MANO, gr?.FUENTE_OPCION,
-                gr?.LIGHT_GRAY, gr?.DARK_WHITE, gr?.BORDER_DARK_GRAY, "CENTER", true)
+        gb?.setJButton(btCalculate, "calculate", 600, 600, 80, 32, gr?.CURSOR_MANO, gr?.FUENTE_OPCION,
+            gr?.GRAY, gr?.DARK_WHITE, gr?.BORDER_DARK_GRAY, "CENTER", true)
+        btCalculate.addActionListener(ActionListener {
+            try {
+                JOptionPane.showMessageDialog(null, calculate(textField1.text.toInt(), textField2.text.toInt(), textField3.text.toInt(),
+                    textField4.text.toInt(), textField5.text.toInt(), textField6.text.toInt(), textField7.text.toInt(), textField8.text.toInt(),
+                    textField9.text.toInt()), "Answer", JOptionPane.INFORMATION_MESSAGE)
+            } catch (cannotConvertException: Exception){
+                JOptionPane.showMessageDialog(null, "Wrong values", "Error", JOptionPane.ERROR_MESSAGE)
+            }
+        })
         add(btCalculate)
     }
 
