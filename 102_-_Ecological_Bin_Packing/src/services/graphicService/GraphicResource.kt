@@ -54,8 +54,9 @@ class GraphicResource private constructor() {
 
     //----------------------------------------BORDERS--------------------------------------------------------------------
     //bordes estandar
-    val BORDE_NEGRO = BorderFactory.createLineBorder(BLACK, 2, true)
-    val BORDE_GRIS = BorderFactory.createLineBorder(GRAY, 2, true)
+    val BORDER_BLACK = BorderFactory.createLineBorder(BLACK, 2, true)
+    val BORDER_GRAY = BorderFactory.createLineBorder(GRAY, 2, true)
+    val BORDER_DARK_GRAY = BorderFactory.createLineBorder(DARK_GRAY, 2, true)
 
     companion object {
         var service: GraphicResource? = null

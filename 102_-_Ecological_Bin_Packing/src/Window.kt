@@ -1,39 +1,45 @@
 import services.graphicService.GraphicBuilder
 import services.graphicService.GraphicResource
-import java.awt.Color
 import javax.swing.*
 
 class Window : JFrame() {
-    val gr = GraphicResource.service
-    val gb: GraphicBuilder? = GraphicBuilder.service
+    private val gr = GraphicResource.service
+    private val gb: GraphicBuilder? = GraphicBuilder.service
 
-    val textField1 = JTextField()
-    val textField2 = JTextField()
-    val textField3 = JTextField()
-    val textField4 = JTextField()
-    val textField5 = JTextField()
-    val textField6 = JTextField()
-    val textField7 = JTextField()
-    val textField8 = JTextField()
-    val textField9 = JTextField()
+    private val iBrownBin: Icon? = gb?.getScaledIcon("src/resources/brownBin.png", 82, 109)
+    private val iGreenBin: Icon? = gb?.getScaledIcon("src/resources/greenBin.png", 81, 112)
+    private val iWhiteBin: Icon? = gb?.getScaledIcon("src/resources/whiteBin.png", 85, 110)
+
+    private val textField1 = JTextField()
+    private val textField2 = JTextField()
+    private val textField3 = JTextField()
+    private val textField4 = JTextField()
+    private val textField5 = JTextField()
+    private val textField6 = JTextField()
+    private val textField7 = JTextField()
+    private val textField8 = JTextField()
+    private val textField9 = JTextField()
 
     init {
 
         createPacking1()
+        createPacking2()
+        createPacking3()
+        addBtCalculate()
 
-        setSize(1280, 720)
-        setLocationRelativeTo(null)
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-        setLayout(null)
-        getContentPane().setBackground(Color.BLACK)
-        setVisible(true)
+        gb?.setJFrame(this, 1280, 720, "Bin Packing Problem", gr?.BLACK)
+        layout = null
 
     }
 
-    private fun createPacking1() {
+    private fun addBtCalculate() {
+        val btCalculate = JButton()
+        gb?.setJButton(btCalculate, "calculate", 600, 656, 80, 32, gr?.CURSOR_MANO, gr?.FUENTE_OPCION,
+                gr?.LIGHT_GRAY, gr?.DARK_WHITE, gr?.BORDER_DARK_GRAY, "CENTER", true)
+        add(btCalculate)
+    }
 
-        //load resources
-        val iBrownBin: Icon? = gb?.getScaledIcon("src/resources/brownBin.png", 200, 400)
+    private fun createPacking1() {
 
         //main panel
         val panel = JPanel()
@@ -46,27 +52,143 @@ class Window : JFrame() {
         gb?.setJLabel(lTitle, 96, 438, 244, 75, "Packing 1", gr?.DARK_WHITE, gr?.FUENTE_TITULO)
         panel.add(lTitle)
 
-        //textfield 1
-        gb?.setJTextField(textField1, 32, 400, 100, 32, "Brown bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
-                gr?.BORDE_GRIS, "CENTER")
+        //text field 1
+        gb?.setJTextField(textField1, 200, 72, 100, 32, "Brown bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+                gr?.BORDER_GRAY, "CENTER")
         panel.add(textField1)
 
-        //textfield 2
-        gb?.setJTextField(textField2, 143, 400, 100, 32, "Green bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
-            gr?.BORDE_GRIS, "CENTER")
+        //text field 2
+        gb?.setJTextField(textField2, 200, 204, 100, 32, "Green bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
         panel.add(textField2)
 
-        //textfield 3
-        gb?.setJTextField(textField3, 252, 400, 100, 32, "Clear bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
-            gr?.BORDE_GRIS, "CENTER")
+        //text field 3
+        gb?.setJTextField(textField3, 200, 339, 100, 32, "Clear bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
         panel.add(textField3)
 
         //brown bin
         val lBrownBin = JLabel()
         if (iBrownBin != null) {
-            gb?.setJLabel(lBrownBin, 32, 32, iBrownBin)
+            gb?.setJLabel(lBrownBin, 80, 32, iBrownBin)
         }
         panel.add(lBrownBin)
+
+        //green bin
+        val lGreenBin = JLabel()
+        if (iGreenBin != null) {
+            gb?.setJLabel(lGreenBin, 80, 164, iGreenBin)
+        }
+        panel.add(lGreenBin)
+
+        //clear bin
+        val lWhiteBin = JLabel()
+        if (iWhiteBin != null) {
+            gb?.setJLabel(lWhiteBin, 80, 300, iWhiteBin)
+        }
+        panel.add(lWhiteBin)
+
+    }
+
+    private fun createPacking2() {
+
+        //main panel
+        val panel = JPanel()
+        gb?.setJPanel(panel, 448, 32, 384, 528, gr?.GRAY)
+        panel.layout = null
+        add(panel)
+
+        //title
+        val lTitle = JLabel()
+        gb?.setJLabel(lTitle, 96, 438, 244, 75, "Packing 2", gr?.DARK_WHITE, gr?.FUENTE_TITULO)
+        panel.add(lTitle)
+
+        //text field 1
+        gb?.setJTextField(textField4, 200, 72, 100, 32, "Brown bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField4)
+
+        //text field 2
+        gb?.setJTextField(textField5, 200, 204, 100, 32, "Green bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField5)
+
+        //text field 3
+        gb?.setJTextField(textField6, 200, 339, 100, 32, "Clear bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField6)
+
+        //brown bin
+        val lBrownBin = JLabel()
+        if (iBrownBin != null) {
+            gb?.setJLabel(lBrownBin, 80, 32, iBrownBin)
+        }
+        panel.add(lBrownBin)
+
+        //green bin
+        val lGreenBin = JLabel()
+        if (iGreenBin != null) {
+            gb?.setJLabel(lGreenBin, 80, 164, iGreenBin)
+        }
+        panel.add(lGreenBin)
+
+        //clear bin
+        val lWhiteBin = JLabel()
+        if (iWhiteBin != null) {
+            gb?.setJLabel(lWhiteBin, 80, 300, iWhiteBin)
+        }
+        panel.add(lWhiteBin)
+
+    }
+
+    private fun createPacking3() {
+
+        //main panel
+        val panel = JPanel()
+        gb?.setJPanel(panel, 864, 32, 384, 528, gr?.GRAY)
+        panel.layout = null
+        add(panel)
+
+        //title
+        val lTitle = JLabel()
+        gb?.setJLabel(lTitle, 96, 438, 244, 75, "Packing 3", gr?.DARK_WHITE, gr?.FUENTE_TITULO)
+        panel.add(lTitle)
+
+        //text field 1
+        gb?.setJTextField(textField7, 200, 72, 100, 32, "Brown bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField7)
+
+        //text field 2
+        gb?.setJTextField(textField8, 200, 204, 100, 32, "Green bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField8)
+
+        //text field 3
+        gb?.setJTextField(textField9, 200, 339, 100, 32, "Clear bottles", gr?.MEGALIGHT_GRAY, gr?.BLACK, gr?.DARK_WHITE,
+            gr?.BORDER_GRAY, "CENTER")
+        panel.add(textField9)
+
+        //brown bin
+        val lBrownBin = JLabel()
+        if (iBrownBin != null) {
+            gb?.setJLabel(lBrownBin, 80, 32, iBrownBin)
+        }
+        panel.add(lBrownBin)
+
+        //green bin
+        val lGreenBin = JLabel()
+        if (iGreenBin != null) {
+            gb?.setJLabel(lGreenBin, 80, 164, iGreenBin)
+        }
+        panel.add(lGreenBin)
+
+        //clear bin
+        val lWhiteBin = JLabel()
+        if (iWhiteBin != null) {
+            gb?.setJLabel(lWhiteBin, 80, 300, iWhiteBin)
+        }
+        panel.add(lWhiteBin)
 
     }
 
