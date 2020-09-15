@@ -1,21 +1,20 @@
-import java.io.InputStream
 import java.util.Scanner
 
 fun main() {
-    val input = Scanner(InputStream.nullInputStream())
+    val input = Scanner(System.`in`)
 
     val packing1 = Packing(input)
     val packing2 = Packing(input)
     val packing3 = Packing(input)
 
-    var total = 0
+    var total: Int
     var min = 0
     val combinations = ArrayList<String>()
 
     for(a in 1..3){
         for(b in 1..3){
             for(c in 1..3){
-                if(a != b && b != c) {
+                if(a != b && b != c && a != c) {
                     total = when(a) {
                         1 -> packing2.brownBottles + packing3.brownBottles
                         2 -> packing2.greenBottles + packing3.greenBottles
@@ -31,7 +30,7 @@ fun main() {
                     }
                     if(combinations.size == 0) {
                         min = total
-                        combinations.add({
+                        combinations.add(
                             when (a) {
                                 1 -> "B"
                                 2 -> "G"
@@ -45,11 +44,11 @@ fun main() {
                                 2 -> "G"
                                 else -> "C"
                             }
-                        }.toString())
+                        )
                     }else if (min < total) {
                         min = total
                         combinations.removeAll(combinations)
-                        combinations.add({
+                        combinations.add(
                             when (a) {
                                 1 -> "B"
                                 2 -> "G"
@@ -63,9 +62,9 @@ fun main() {
                                 2 -> "G"
                                 else -> "C"
                             }
-                        }.toString())
+                        )
                     }else if (min == total) {
-                        combinations.add({
+                        combinations.add(
                             when (a) {
                                 1 -> "B"
                                 2 -> "G"
@@ -79,22 +78,21 @@ fun main() {
                                 2 -> "G"
                                 else -> "C"
                             }
-                        }.toString())
+                        )
                     }
                 }
             }
         }
-
-        combinations.sort()
-        println("${combinations.get(0)} $min")
     }
+    combinations.sort()
+    println("${combinations.get(0)} $min")
 }
 
 class Packing {
 
-    var brownBottles = 0
-    var greenBottles = 0
-    var clearBottles = 0
+    val brownBottles: Int
+    val greenBottles: Int
+    val clearBottles: Int
 
     constructor (input : Scanner){
         brownBottles = input.nextInt()
