@@ -12,7 +12,7 @@ fun calculate(num1: Int, num2: Int, num3: Int, num4: Int, num5: Int, num6: Int, 
 
     var total: Int
     var min = 0
-    val combinations = ArrayList<String>()
+    val combinations: MutableList<String> = mutableListOf()
 
     for(a in 1..3){
         for(b in 1..3){
@@ -31,57 +31,19 @@ fun calculate(num1: Int, num2: Int, num3: Int, num4: Int, num5: Int, num6: Int, 
                         2 -> packing1.greenBottles + packing2.greenBottles
                         else -> packing1.clearBottles + packing2.clearBottles
                     }
-                    if(combinations.size == 0) {
-                        min = total
-                        combinations.add(
-                            when (a) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (b) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (c) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            }
-                        )
-                    }else if (min < total) {
-                        min = total
-                        combinations.removeAll(combinations)
-                        combinations.add(
-                            when (a) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (b) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (c) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            }
-                        )
-                    }else if (min == total) {
-                        combinations.add(
-                            when (a) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (b) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            } + when (c) {
-                                1 -> "B"
-                                2 -> "G"
-                                else -> "C"
-                            }
-                        )
+                    when {
+                        combinations.isEmpty() -> {
+                            min = total
+                            combinations.add(code(a, b, c))
+                        }
+                        min > total -> {
+                            min = total
+                            combinations.clear()
+                            combinations.add(code(a, b, c))
+                        }
+                        min == total -> {
+                            combinations.add(code(a, b, c))
+                        }
                     }
                 }
             }
@@ -89,6 +51,23 @@ fun calculate(num1: Int, num2: Int, num3: Int, num4: Int, num5: Int, num6: Int, 
     }
     combinations.sort()
     return "${combinations[0]} $min"
+
+}
+
+fun code(a: Int, b: Int, c: Int): String {
+    return (when (a) {
+                1 -> "B"
+                2 -> "G"
+                else -> "C"
+            } + when (b) {
+                1 -> "B"
+                2 -> "G"
+                else -> "C"
+            } + when (c) {
+                1 -> "B"
+                2 -> "G"
+                else -> "C"
+            })
 
 }
 

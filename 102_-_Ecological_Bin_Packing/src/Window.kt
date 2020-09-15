@@ -40,11 +40,11 @@ class Window : JFrame() {
             gr?.GRAY, gr?.DARK_WHITE, gr?.BORDER_DARK_GRAY, "CENTER", true)
         btCalculate.addActionListener(ActionListener {
             try {
-                JOptionPane.showMessageDialog(null, calculate(textField1.text.toInt(), textField2.text.toInt(), textField3.text.toInt(),
+                JOptionPane.showMessageDialog(this, calculate(textField1.text.toInt(), textField2.text.toInt(), textField3.text.toInt(),
                     textField4.text.toInt(), textField5.text.toInt(), textField6.text.toInt(), textField7.text.toInt(), textField8.text.toInt(),
                     textField9.text.toInt()), "Answer", JOptionPane.INFORMATION_MESSAGE)
             } catch (cannotConvertException: Exception){
-                JOptionPane.showMessageDialog(null, "Wrong values", "Error", JOptionPane.ERROR_MESSAGE)
+                JOptionPane.showMessageDialog(this, "Wrong values", "Error", JOptionPane.ERROR_MESSAGE)
             }
         })
         add(btCalculate)
