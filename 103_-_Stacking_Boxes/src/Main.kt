@@ -2,7 +2,7 @@ import java.lang.NumberFormatException
 import javax.swing.JOptionPane
 
 fun main(){
-    var numBox = nextInt(1, 30, "Ingrese el número de cajas", "Input", JOptionPane.QUESTION_MESSAGE)
+    val numBox = nextInt(1, 30, "Ingrese el número de cajas", "Input", JOptionPane.QUESTION_MESSAGE)
     val numDimensions = nextInt(1, 15, "Ingrese la dimensión de las cajas", "Input", JOptionPane.QUESTION_MESSAGE)
 
     val arrayOfBox: MutableList<Box> = mutableListOf()
@@ -35,12 +35,10 @@ fun main(){
 }
 
 fun filter(arrayOfBox: MutableList<Box>, numBox: Int, numDimensions: Int) {
-    arrayOfBox
-
-    for(i in 1 until numBox) {
-        for(j in 1..numDimensions) {
-            if(arrayOfBox[i - 1].numbers[j - 1] <= arrayOfBox[i].numbers[j - 1]) {
-                arrayOfBox.removeAt(i)
+    for(i in 0 until numBox - 1) {
+        for(j in 0 until numDimensions) {
+            if(arrayOfBox[i].numbers[j] >= arrayOfBox[i + 1].numbers[j]) {
+                arrayOfBox.removeAt(i + 1)
                 filter(arrayOfBox, numBox - 1, numDimensions)
                 return
             }
