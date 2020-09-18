@@ -3,36 +3,36 @@ import javax.swing.JOptionPane
 import kotlin.system.exitProcess
 
 fun main(){
-    val numBox = nextInt(1, 30, "Ingrese el número de cajas", "Input", JOptionPane.QUESTION_MESSAGE)
-    val numDimensions = nextInt(1, 15, "Ingrese la dimensión de las cajas", "Input", JOptionPane.QUESTION_MESSAGE)
+    val numBox = nextInt(1, 30, "enter the number of boxes", "Input", JOptionPane.QUESTION_MESSAGE)
+    val numDimensions = nextInt(1, 15, "Enter the dimension of the boxes", "Input", JOptionPane.QUESTION_MESSAGE)
 
     val arrayOfBox: MutableList<Box> = mutableListOf()
 
     for(i in 1..numBox) {
-        arrayOfBox.add(Box(i))  //enumero y creo las cajas
+        arrayOfBox.add(Box(i))  //I list and create the boxes
 
-        //ingresa los valores de cada caja
+        //enter the values of each box
         for(j in 1..numDimensions) {
-            arrayOfBox[i - 1].addNumber(nextInt(1, 3000, "Ingrese longitud de la dimensión $j de la caja $i", "Input",
+            arrayOfBox[i - 1].addNumber(nextInt(1, 3000, "Enter length of dimension $j of box $i", "Input",
                     JOptionPane.QUESTION_MESSAGE))
         }
 
-        arrayOfBox[i - 1].sort()    //organizo el contenido de las cajas de menor a mayor
-        arrayOfBox[i - 1].calculateWeight()     //calculo el peso de cada caja
+        arrayOfBox[i - 1].sort()    //organize the contents of the boxes from smallest to largest
+        arrayOfBox[i - 1].calculateWeight()     //calculate the weight of each box
     }
 
-    arrayOfBox.sortBy { it.weight }     //organizo por peso las cajas
+    arrayOfBox.sortBy { it.weight }     //organize the boxes by weight
 
-    //calculo todos los paths candidatos
+    //look for the longest list
     val path = searchBestPath(arrayOfBox)
 
-    //retorno el mejor path
+    //return to the user the best combination
     var orderBox = ""
     for(i in 0 until path.size){
         orderBox += "${path[i]} "
     }
-    JOptionPane.showMessageDialog(null, "numero de cajas que cumplen con la condición: ${path.size}\n" +
-            "orden de las cajas: $orderBox")
+    JOptionPane.showMessageDialog(null, "number of boxes that meet the condition: ${path.size}\n" +
+            "order of the boxes: $orderBox")
 }
 
 fun MutableList<Box>.getWeights(): MutableList<Int> {
@@ -46,19 +46,13 @@ fun MutableList<Box>.getWeights(): MutableList<Int> {
     return temp
 }
 
-/**
- * @param previousBox caja anterior
- * @param remainingBoxes cajas restantes
- * @param weights pesos de las cajas
- * @return length of path
- */
 fun searchPathStartingAt(selectBoxIndex: Int, listOfBox: MutableList<Box>, finalList: MutableList<Box>): MutableList<Box> {
     if(listOfBox[selectBoxIndex].weight != listOfBox.getWeights().last()) {
-        var nextWeight: Int = 0
+        var nextWeight = 0
         for(i in selectBoxIndex until listOfBox.size) {
             if (listOfBox[i].weight > listOfBox[selectBoxIndex].weight) {
                 nextWeight = listOfBox[i].weight
-                break;
+                break
             }
         }
         var temp: MutableList<Box>
@@ -111,9 +105,6 @@ fun Box.canBeWithinOf(box: Box): Boolean {
     return true
 }
 
-/**
- * pide entrada entera en un rango a través de JOptionPane
- */
 fun nextInt(min: Int, max: Int, message: String, title: String, messageType: Int): Int {
     val value: Int
     return try {
@@ -122,13 +113,14 @@ fun nextInt(min: Int, max: Int, message: String, title: String, messageType: Int
             throw InvalidInputException()
         } else value
     }catch (invalidInput: InvalidInputException) {
-        JOptionPane.showMessageDialog(null, "Por favor ingrese un valor a partir de $min hasta $max", "Error",
+        JOptionPane.showMessageDialog(null, "Please enter a value from $min until $max", "Error",
                 JOptionPane.ERROR_MESSAGE)
         nextInt(min, max, message, title, messageType)
     } catch (numberFormat: NumberFormatException) {
-        JOptionPane.showMessageDialog(null, "Por favor ingrese un número entero", "Error", JOptionPane.ERROR_MESSAGE)
+        JOptionPane.showMessageDialog(null, "Please enter an integer number", "Error", JOptionPane.ERROR_MESSAGE)
         nextInt(min, max, message, title, messageType)
     } catch (nullException: NullPointerException) {
+        JOptionPane.showMessageDialog(null, "application closed successfully", "Exit", JOptionPane.INFORMATION_MESSAGE)
         exitProcess(0)
     }
 }

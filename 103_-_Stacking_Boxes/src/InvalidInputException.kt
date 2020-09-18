@@ -1,1 +1,1 @@
-class InvalidInputException: IllegalArgumentException() {}
+class InvalidInputException: IllegalArgumentException()

@@ -1,12 +1,9 @@
-class Box {
-    val number: Int
-    val numbers: MutableList<Int>
+class Box(val number: Int) {
+    val numbers: MutableList<Int> = mutableListOf()
 
     var weight: Int
 
-    constructor(number: Int) {
-        this.number = number
-        numbers = mutableListOf()
+    init {
         weight = 0
     }
 
