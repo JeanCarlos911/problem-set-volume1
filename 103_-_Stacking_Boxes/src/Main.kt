@@ -1,5 +1,6 @@
 import java.lang.NumberFormatException
 import javax.swing.JOptionPane
+import kotlin.system.exitProcess
 
 fun main(){
     val numBox = nextInt(1, 30, "Ingrese el número de cajas", "Input", JOptionPane.QUESTION_MESSAGE)
@@ -22,30 +23,100 @@ fun main(){
 
     arrayOfBox.sortBy { it.weight }     //organizo por peso las cajas
 
+    //calculo todos los paths candidatos
+    val path = searchBestPath(arrayOfBox)
 
-    filter(arrayOfBox, numBox, numDimensions)   //descarto las de mayor peso con numeros menores o repetidos
-
-    //retorno las cajas restantes
+    //retorno el mejor path
     var orderBox = ""
-    for(i in arrayOfBox){
-        orderBox += "${i.number} "
+    for(i in 0 until path.size){
+        orderBox += "${path[i] + 1} "
     }
-    JOptionPane.showMessageDialog(null, "numero de cajas que cumplen con la condición: ${arrayOfBox.size}\n" +
+    JOptionPane.showMessageDialog(null, "numero de cajas que cumplen con la condición: ${path.size}\n" +
             "orden de las cajas: $orderBox")
 }
 
-fun filter(arrayOfBox: MutableList<Box>, numBox: Int, numDimensions: Int) {
-    for(i in 0 until numBox - 1) {
-        for(j in 0 until numDimensions) {
-            if(arrayOfBox[i].numbers[j] >= arrayOfBox[i + 1].numbers[j]) {
-                arrayOfBox.removeAt(i + 1)
-                filter(arrayOfBox, numBox - 1, numDimensions)
-                return
-            }
+fun MutableList<Box>.getWeights(): MutableList<Int> {
+    val temp: MutableList<Int> = mutableListOf()
+
+    for(i in this) {
+        if(!temp.contains(i.weight)) {
+            temp.add(i.weight)
         }
     }
+    return temp
 }
 
+/**
+ * @param previousBox caja anterior
+ * @param remainingBoxes cajas restantes
+ * @param weights pesos de las cajas
+ * @return length of path
+ */
+fun searchPathStartingAt(selectBoxIndex: Int, listOfBox: MutableList<Box>, finalList: MutableList<Box>): MutableList<Box> {
+    if(listOfBox[selectBoxIndex].weight != listOfBox.getWeights().last()) {
+        var nextWeight: Int = 0
+        for(i in selectBoxIndex until listOfBox.size) {
+            if(listOfBox[i].weight > listOfBox[selectBoxIndex].weight) {
+                nextWeight = listOfBox[i].weight
+                break;
+            }
+            var insideABox = false
+            val nextBoxesIndex: MutableList<Int> = mutableListOf()
+            for(i in 0 until listOfBox.size) {
+                if(listOfBox[i].weight == nextWeight) {
+                    if(listOfBox[selectBoxIndex].canBeWithinOf(listOfBox[i])) {
+                        insideABox = true;
+                        searchPathStartingAt(i, listOfBox, finalList)
+                    }
+                }
+            }
+            finalList.add(listOfBox[selectBoxIndex])
+            finalList.sortBy { it.weight }
+            return finalList
+        }
+    }else {
+        finalList.add(listOfBox[selectBoxIndex])
+        finalList.sortBy { it.weight }
+        return finalList
+    }
+
+}
+
+fun searchBestPath(arrayOfBox: MutableList<Box>): MutableList<Int> {
+    var maxSize = 0
+    var bestPath: MutableList<Int> = mutableListOf()
+    var deleted = 0
+
+    while(true) {
+        val path = searchPathStartingAt(0, arrayOfBox, mutableListOf())
+        if(path.size > maxSize) {
+            maxSize = path.size
+            for(i in 0 until path.size) {
+                path[i] += deleted
+            }
+            bestPath = path
+        }
+        deleted++
+        arrayOfBox.removeAt(0)
+        if(arrayOfBox.size == 0) {
+            break
+        }
+    }
+    return bestPath
+}
+
+fun Box.canBeWithinOf(box: Box): Boolean {
+    for(i in 0 until this.numbers.size) {
+        if(this.numbers[i] >= box.numbers[i]) {
+            return false
+        }
+    }
+    return true
+}
+
+/**
+ * pide entrada entera en un rango a través de JOptionPane
+ */
 fun nextInt(min: Int, max: Int, message: String, title: String, messageType: Int): Int {
     val value: Int
     return try {
@@ -60,5 +131,7 @@ fun nextInt(min: Int, max: Int, message: String, title: String, messageType: Int
     } catch (numberFormat: NumberFormatException) {
         JOptionPane.showMessageDialog(null, "Por favor ingrese un número entero", "Error", JOptionPane.ERROR_MESSAGE)
         nextInt(min, max, message, title, messageType)
+    } catch (nullException: NullPointerException) {
+        exitProcess(0)
     }
 }
