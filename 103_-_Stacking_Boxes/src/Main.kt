@@ -29,7 +29,7 @@ fun main(){
     //retorno el mejor path
     var orderBox = ""
     for(i in 0 until path.size){
-        orderBox += "${path[i] + 1} "
+        orderBox += "${path[i]} "
     }
     JOptionPane.showMessageDialog(null, "numero de cajas que cumplen con la condición: ${path.size}\n" +
             "orden de las cajas: $orderBox")
@@ -56,53 +56,50 @@ fun searchPathStartingAt(selectBoxIndex: Int, listOfBox: MutableList<Box>, final
     if(listOfBox[selectBoxIndex].weight != listOfBox.getWeights().last()) {
         var nextWeight: Int = 0
         for(i in selectBoxIndex until listOfBox.size) {
-            if(listOfBox[i].weight > listOfBox[selectBoxIndex].weight) {
+            if (listOfBox[i].weight > listOfBox[selectBoxIndex].weight) {
                 nextWeight = listOfBox[i].weight
                 break;
             }
-            var insideABox = false
-            val nextBoxesIndex: MutableList<Int> = mutableListOf()
-            for(i in 0 until listOfBox.size) {
-                if(listOfBox[i].weight == nextWeight) {
-                    if(listOfBox[selectBoxIndex].canBeWithinOf(listOfBox[i])) {
-                        insideABox = true;
-                        searchPathStartingAt(i, listOfBox, finalList)
-                    }
+        }
+        var temp: MutableList<Box>
+        var maxSize: Int? = null
+        var maxSizeIndex: Int? = null
+        for(i in 0 until listOfBox.size) {
+            if(listOfBox[i].weight >= nextWeight && listOfBox[selectBoxIndex].canBeWithinOf(listOfBox[i])) {
+                temp = searchPathStartingAt(i, listOfBox, mutableListOf())
+                if(maxSize == null || temp.size > maxSize) {
+                    maxSize = temp.size
+                    maxSizeIndex = i
                 }
             }
-            finalList.add(listOfBox[selectBoxIndex])
-            finalList.sortBy { it.weight }
-            return finalList
         }
-    }else {
-        finalList.add(listOfBox[selectBoxIndex])
-        finalList.sortBy { it.weight }
-        return finalList
+        if(maxSizeIndex != null) {
+            searchPathStartingAt(maxSizeIndex, listOfBox, finalList)
+        }
     }
-
+    finalList.add(listOfBox[selectBoxIndex])
+    finalList.sortBy { it.weight }
+    return finalList
 }
 
 fun searchBestPath(arrayOfBox: MutableList<Box>): MutableList<Int> {
     var maxSize = 0
-    var bestPath: MutableList<Int> = mutableListOf()
-    var deleted = 0
+    var bestPath: MutableList<Box> = mutableListOf()
 
-    while(true) {
-        val path = searchPathStartingAt(0, arrayOfBox, mutableListOf())
+    for(i in 0  until arrayOfBox.size) {
+        val path = searchPathStartingAt(i, arrayOfBox, mutableListOf())
         if(path.size > maxSize) {
             maxSize = path.size
-            for(i in 0 until path.size) {
-                path[i] += deleted
-            }
             bestPath = path
         }
-        deleted++
-        arrayOfBox.removeAt(0)
-        if(arrayOfBox.size == 0) {
-            break
-        }
     }
-    return bestPath
+    bestPath.sortBy { it.weight }
+
+    val bestPathNumbers: MutableList<Int> = mutableListOf()
+    for(i in 0 until bestPath.size) {
+        bestPathNumbers.add(bestPath[i].number)
+    }
+    return bestPathNumbers
 }
 
 fun Box.canBeWithinOf(box: Box): Boolean {
