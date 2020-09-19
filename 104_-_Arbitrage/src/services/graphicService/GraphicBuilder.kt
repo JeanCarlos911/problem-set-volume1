@@ -4,11 +4,6 @@ import java.awt.*
 import javax.swing.*
 import javax.swing.border.Border
 
-fun getScaledIcon(path: String, width: Int, height: Int): ImageIcon {
-    val iIcon = ImageIcon(path)
-    return ImageIcon(iIcon.image.getScaledInstance(width, height, Image.SCALE_DEFAULT))
-}
-
 fun JPanel.setProperties(x: Int, y: Int, width: Int, height: Int, color: Color?, layoutManager: LayoutManager?, border: Border? = null) {
     this.setBounds(x, y, width, height)
     this.background = color
@@ -48,7 +43,7 @@ fun JFrame.setProperties(width: Int, height: Int, layoutManager: LayoutManager?,
     this.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
     this.title = title
     this.layout = layout
-    this.background = background
+    this.contentPane.background = background
     this.isVisible = true
 }
 
@@ -56,7 +51,7 @@ fun JFrame.setProperties(width: Int, height: Int, layoutManager: LayoutManager?,
  * Icon button
  */
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-fun JButton.setProperties(x: Int, y: Int, icon: Icon?, cursor: Cursor?) {
+fun JButton.setProperties(x: Int, y: Int, icon: Icon?, cursor: Cursor? = handCursor) {
     this.setLocation(x, y)
     this.isContentAreaFilled = false
     this.border = null
@@ -82,7 +77,7 @@ fun JButton.setProperties( x: Int,y: Int, width: Int, height: Int, cursor: Curso
  * Text button
  */
 fun JButton.setProperties(text: String?, x: Int, y: Int, width: Int, height: Int, cursor: Cursor?, font: Font?, background: Color?, foreground: Color?,
-          border: Border?, alignment: String?, isSolid: Boolean) {
+        border: Border?, alignment: String?, isSolid: Boolean) {
     setProperties(x, y, width, height, cursor, background, isSolid)
     this.text = text
     this.font = font
@@ -96,8 +91,8 @@ fun JButton.setProperties(text: String?, x: Int, y: Int, width: Int, height: Int
     }
 }
 
-fun JTextField.setProperties(x: Int, y: Int, width: Int, height: Int, text: String? = "", foreground: Color? = BLACK, background: Color? = WHITE,
-         caret: Color? = BLACK, border: Border? = null, hAlignment: String? = "LEFT") {
+fun JTextField.setProperties(x: Int, y: Int, width: Int, height: Int, text: String? = "", foreground: Color? = black, background: Color? = white,
+                             caret: Color? = black, border: Border? = null, hAlignment: String? = "LEFT") {
     this.setBounds(x, y, width, height)
     this.text = text
     this.foreground = foreground
@@ -109,5 +104,14 @@ fun JTextField.setProperties(x: Int, y: Int, width: Int, height: Int, text: Stri
         "RIGHT" ->  SwingConstants.RIGHT
         else ->  SwingConstants.LEFT
     }
+}
 
+fun JTextArea.setProperties(x: Int, y: Int, width: Int, height: Int, text: String? = null, foreground: Color? = black, background: Color? = white,
+                            caret: Color? = black, border: Border? = null) {
+    this.setBounds(x, y, width, height)
+    this.text = text
+    this.foreground = foreground
+    this.background = background
+    this.caretColor = caret
+    this.border = border
 }
