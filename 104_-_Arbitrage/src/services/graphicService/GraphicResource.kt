@@ -6,19 +6,29 @@ import java.awt.Font
 import javax.swing.BorderFactory
 import javax.swing.border.Border
 
-//----------------------------------------COLOUR PALETTES------------------------------------------------------------
+//----------------------------------------COLOUR PALETTES---------------------------------------------------------------
 //basic
+val black = Color(0, 0, 0)
 val red = Color(255, 0, 0)
 val white = Color(255, 255, 255)
 
-//standard
-val black = Color(0, 0, 0)
-val darkGray = Color(70, 70, 70)
-val gray = Color(83, 83, 83)
-val lightGray = Color(100, 100, 100)
-val megaLightGray = Color(120, 120, 120)
-val megaDarkWhite = Color(180, 180, 180)
-val darkWhite = Color(210, 210, 210)
+//dark theme based on intellij idea
+val semiDarkGrayBlue = Color(60, 63, 65) //main background
+val darkGray = Color(49, 51, 53) //second background
+val megaDarkGray = Color(43, 43, 43) //console background
+val semiDarkGray2 = Color(85, 85, 85)//console border
+val darkWhite = Color(187,187,187) //main color font
+val semiDarkGray = Color(114, 115, 122) //var names without use font
+val gray = Color(124, 123, 119) //comment font
+val grayPurple = Color(152, 118, 168) //var names in use font
+val lightGrayGreen = Color(106, 135, 89) //string font
+val greenGray = Color(98,148, 82) //javadoc font
+val orangeGray = Color(199,118,50) //reserve word font
+val lightBlueGray = Color(104,150,186) //numbers font
+val semiDarkGray3 = Color(81, 81, 81) //mainToolbar bottom border
+
+//light theme based on intellij idea
+
 
 //green complementary cake
 val lightGreen = Color(193, 255, 171)
@@ -34,6 +44,11 @@ val darkOcher = Color(169, 105, 0)
 val mustard = Color(255, 225, 0)
 val darkBlueGray = Color(58, 117, 181)
 val blueGray = Color(82, 125, 181)
+
+//others
+val superLightGray = Color(120, 120, 120)
+val megaDarkWhite = Color(180, 180, 180)
+val semiDarkWhite = Color(210, 210, 210)
 
 //-----------------------------------------FONTS------------------------------------------------------------------------
 //standard
@@ -59,4 +74,5 @@ val moveCursor = Cursor(13)
 //standard
 val blackBorder: Border = BorderFactory.createLineBorder(black, 2, true)
 val grayBorder: Border = BorderFactory.createLineBorder(gray, 2, true)
+val semiDarkGray2Border: Border = BorderFactory.createLineBorder(semiDarkGray2, 2, true)
 val darkGrayBorder: Border = BorderFactory.createLineBorder(darkGray, 2, true)
