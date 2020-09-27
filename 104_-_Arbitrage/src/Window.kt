@@ -21,7 +21,7 @@ class Window(title: String) : JFrame(), MouseListener {
     init {
         isUndecorated = true
 
-        val mainBar = MainBar(1280)
+        val mainBar = MainBar(1280, this)
         mainBar.setLogo(iLogo)
         add(mainBar)
 
